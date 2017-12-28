@@ -5,8 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
       var rowNum = 0;
       newDiv = document.createElement('div');
       container.appendChild(newDiv);
-      newDiv.className = `slot${divCount + 1} slot`;
-      newDiv.setAttribute("data-");
+      newDiv.className = `slot${divCount} slot`;
+      newDiv.setAttribute("data-row", `${rowNum}`);
+      if (divCount % 7 === 0 && divCount !== 42) {
+        rowNum++;
+      }
     }
   }
 
