@@ -1,53 +1,54 @@
+function playChip(cell) {
+  newCell = document.createElement('div')
+  newCell.classList = 'chip'
+  cell.appendChild(newCell);
+  newCell.setAttribute("data-player", `${currentPlayer}`);
+  if (currentPlayer === 1) {
+    newCell.style.backgroundColor = "red";
+    currentPlayer = 2;
+  } else if (currentPlayer === 2) {
+    newCell.style.backgroundColor = "yellow";
+    currentPlayer = 1;
+  }
+  cell.setAttribute("data-clicked", true);
+}
+
+function gameBoard() {
+  var container = document.querySelector('.container');
+  var rowNum = 5;
+  for (var divCount = 42; divCount > 0; divCount--) {
+    newDiv = document.createElement('div');
+    container.appendChild(newDiv);
+    newDiv.className = `slot${divCount} slot`;
+    if (divCount % 7 === 0 && divCount !== 42) {
+      rowNum--;
+    }
+    newDiv.setAttribute("data-row", `${rowNum}`);
+    newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
+    newDiv.setAttribute("data-clicked", false);
+  }
+}
+
+function rowWin() {
+  var clickedSlots = document.querySelectorAll(`[data-player="${currentPlayer}"]`);
+  
+};
+
+function columnWin() {
+
+};
+
+function diagonalWin() {
+
+};
+
+function winChecker() {
+
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   var container = document.querySelector('.container');
-  var currentPlayer = 1;
-
-  function playChip(cell) {
-    newCell = document.createElement('div')
-    newCell.classList = 'chip'
-    cell.appendChild(newCell);
-    newCell.setAttribute("data-player", `${currentPlayer}`);
-    if (currentPlayer === 1) {
-      newCell.style.backgroundColor = "red";
-      currentPlayer = 2;
-    } else if (currentPlayer === 2) {
-      newCell.style.backgroundColor = "yellow";
-      currentPlayer = 1;
-    }
-    cell.setAttribute("data-clicked", true);
-  }
-
-  function gameBoard() {
-    var container = document.querySelector('.container');
-    var rowNum = 5;
-    for (var divCount = 42; divCount > 0; divCount--) {
-      newDiv = document.createElement('div');
-      container.appendChild(newDiv);
-      newDiv.className = `slot${divCount} slot`;
-      if (divCount % 7 === 0 && divCount !== 42) {
-        rowNum--;
-      }
-      newDiv.setAttribute("data-row", `${rowNum}`);
-      newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
-      newDiv.setAttribute("data-clicked", false);
-    }
-  }
-
-  function rowWin() {
-
-  };
-
-  function columnWin() {
-
-  };
-
-  function diagonalWin() {
-
-  };
-
-  function winChecker() {
-
-  };
+  window.currentPlayer = 1;
 
   container.addEventListener('click', function(e) {
     var clicked = e.target
