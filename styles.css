@@ -15,4 +15,9 @@ h1 {
     grid-template-rows: 80px 80px 80px 80px 80px 80px;
 }
 
-.slot {border: .02em dashed;}
+.slot {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+
+}
