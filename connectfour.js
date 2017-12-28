@@ -16,13 +16,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-
-
   container.addEventListener('click', function(e) {
     var clicked = e.target
-    if (clicked.classList.contains('slot') ) {
-      clicked.style.backgroundColor = "red";
-    }
+    var clickedColumn = clicked.getAttribute('data-column');
+    var fullColumn = document.querySelectorAll(`[data-column="${clickedColumn}"]`)
+
+    fullColumn.forEach(function(cell) {
+      cell.style.backgroundColor = 'red';
+    } )
+    // if (clicked.classList.contains('slot') ) {
+    //   clicked.style.backgroundColor = "red";
+    // }
   });
 
 
