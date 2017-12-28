@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var currentPlayer = 1;
 
   function playChip(cell) {
+    cell.setAttribute("data-player", `${currentPlayer}`);
     if (currentPlayer === 1) {
       cell.style.backgroundColor = "red";
       currentPlayer = 2;
