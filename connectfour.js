@@ -22,12 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var clickedColumn = clicked.getAttribute('data-column');
     var fullColumn = [].slice.call(document.querySelectorAll(`[data-column="${clickedColumn}"]`));;
     var allClicked = fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
-    if (clicked.classList.contains('slot') ) {
+    if (clicked.classList.contains('slot') && clicked.getAttribute('data-clicked') === 'false' && clicked.getAttribute('data-row') < 6) {
       for (var i = 0; i < fullColumn.length; i++) {
         cell = fullColumn[i];
-        if (cell.getAttribute('data-clicked') === "true" && cell.getAttribute('data-row') > 4) {
-          break;
-        } else if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
+        if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           cell.style.backgroundColor = "red";
           cell.setAttribute("data-clicked", true);
           break;
@@ -42,9 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-
-
-
 
   gameBoard();
 }, false);
