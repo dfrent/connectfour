@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       newDiv.setAttribute("data-row", `${rowNum}`);
       newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
+      newDiv.setAttribute("data-clicked", false);
     }
   }
 
@@ -23,12 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (clicked.classList.contains('slot') ) {
       fullColumn.forEach(function(cell) {
-        if (cell.style.backgroundColor === "" && cell.getAttribute('data-row') === "0") {
+        if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           cell.style.backgroundColor = "red";
+          cell.setAttribute("data-clicked", true)
         } else if (cell.style.backgroundColor !== "") {
           cellRow = cell.getAttribute('data-row');
           cellColumn = cell.getAttribute('data-column');
-          newCell = document.querySelectorAll(`[data-row='${cellRow + 1}']`, `[data-column='${cellColumn}']`)
+          newCell = document.querySelectorAll(`[data-row='${cellRow + 1}'], [data-column='${cellColumn}']`)
           newCell[0].style.backgroundColor = "red";
         }
       } );
