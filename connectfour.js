@@ -33,6 +33,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  function rowWin() {
+
+  };
+
+  function columnWin() {
+
+  };
+
+  function diagonalWin() {
+
+  };
+
+  function youWin() {
+
+  };
+
   container.addEventListener('click', function(e) {
     var clicked = e.target
     var clickedColumn = clicked.getAttribute('data-column');
