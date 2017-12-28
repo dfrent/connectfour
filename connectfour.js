@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
   var container = document.querySelector('.container');
+  var currentPlayer = 1;
+
+  function playChip(cell) {
+    if (currentPlayer === 1) {
+      cell.style.backgroundColor = "red";
+      currentPlayer = 2;
+    } else if (currentPlayer === 2) {
+      cell.style.backgroundColor = "yellow";
+      currentPlayer = 1;
+    }
+    cell.setAttribute("data-clicked", true);
+  }
 
   function gameBoard() {
     var container = document.querySelector('.container');
@@ -23,27 +35,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var fullColumn = [].slice.call(document.querySelectorAll(`[data-column="${clickedColumn}"]`));;
     var allClicked = fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
 
-    if (clicked.classList.contains('slot') ) {
+    if (clicked.classList.contains('slot') && clicked.getAttribute('data-clicked') === 'false' && clicked.getAttribute('data-row') < 6) {
       for (var i = 0; i < fullColumn.length; i++) {
         cell = fullColumn[i];
-        if (cell.getAttribute('data-clicked') === "true" && cell.getAttribute('data-row') > 4) {
-          break;
-        } else if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
-          cell.style.backgroundColor = "red";
-          cell.setAttribute("data-clicked", true);
+        if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
+          playChip(cell);
           break;
         } else if (cell.getAttribute('data-clicked') === "true") {
           fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
           newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
-          newCell.style.backgroundColor = "red";
-          newCell.setAttribute("data-clicked", true);
+          playChip(newCell);
           break;
         }
       }
     }
   });
-
 
   gameBoard();
 }, false);
