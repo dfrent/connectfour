@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   };
 
-  function youWin() {
+  function winChecker() {
 
   };
 
@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     }
+    winChecker();
   });
 
   gameBoard();
