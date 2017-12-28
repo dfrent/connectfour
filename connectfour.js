@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var clickedColumn = clicked.getAttribute('data-column');
     var fullColumn = [].slice.call(document.querySelectorAll(`[data-column="${clickedColumn}"]`));;
     var allClicked = fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
+    
     if (clicked.classList.contains('slot') && clicked.getAttribute('data-clicked') === 'false' && clicked.getAttribute('data-row') < 6) {
       for (var i = 0; i < fullColumn.length; i++) {
         cell = fullColumn[i];
