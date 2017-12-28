@@ -1,0 +1,8 @@
+h1{ color: red; }
+
+.container {
+    position:  absolute;
+    border: 3px solid black;
+    width: 560px;
+    height: 480px;
+}
