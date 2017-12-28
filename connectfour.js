@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (divCount = 0; divCount < 42; divCount++) {
       newDiv = document.createElement('div');
       container.appendChild(newDiv);
-      newDiv.class = 'slot';
+      newDiv.classList = 'slot';
     }
   }
 
