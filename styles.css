@@ -5,6 +5,12 @@ h1 {
     text-shadow: 4px 2px black;
 }
 
+h2 {
+    color: red;
+    margin-left: 50px;
+    text-decoration-style: wavy;
+    text-shadow: 4px 2px black;
+}
 
 .container {
     display: grid;

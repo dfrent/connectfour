@@ -2,12 +2,14 @@ function playChip(cell) {
   newCell = document.createElement('div')
   newCell.classList = 'chip'
   cell.appendChild(newCell);
-  newCell.setAttribute("data-player", `${currentPlayer}`);
+  cell.setAttribute("data-player", `${currentPlayer}`);
   if (currentPlayer === 1) {
     newCell.style.backgroundColor = "red";
+    winChecker();
     currentPlayer = 2;
   } else if (currentPlayer === 2) {
     newCell.style.backgroundColor = "yellow";
+    winChecker();
     currentPlayer = 1;
   }
   cell.setAttribute("data-clicked", true);
@@ -30,12 +32,43 @@ function gameBoard() {
 }
 
 function rowWin() {
-  var clickedSlots = document.querySelectorAll(`[data-player="${currentPlayer}"]`);
-  
+  for (var r = 0; r < 6; r++) {
+    var streak = 1;
+    var previousPlayer;
+    var currentRow = document.querySelectorAll(`[data-row='${r}']`);
+    for (var c = 0; c < 7; c++) {
+      var currentPlayer = currentRow[c].getAttribute(`data-player`)
+      if (currentPlayer === previousPlayer && currentPlayer !== null) {
+        streak++;
+      } else {
+        streak = 1;
+      }
+      previousPlayer = currentPlayer;
+      if ( streak === 4 ) {
+        return true;
+      }
+    };
+  };
 };
 
 function columnWin() {
-
+  for (var r = 0; r < 7; r++) {
+    var streak = 1;
+    var previousPlayer;
+    var currentColumn = document.querySelectorAll(`[data-column='${r}']`);
+    for (var c = 0; c < 6; c++) {
+      var currentPlayer = currentColumn[c].getAttribute(`data-player`)
+      if (currentPlayer === previousPlayer && currentPlayer !== null) {
+        streak++;
+      } else {
+        streak = 1;
+      }
+      previousPlayer = currentPlayer;
+      if ( streak === 4 ) {
+        return true;
+      }
+    };
+  };
 };
 
 function diagonalWin() {
@@ -43,7 +76,10 @@ function diagonalWin() {
 };
 
 function winChecker() {
-
+  if (rowWin() || columnWin() || diagonalWin()) {
+    alert(`Player ${currentPlayer} Wins!`);
+    document.location.reload();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -71,7 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     }
-    winChecker();
   });
 
   gameBoard();
