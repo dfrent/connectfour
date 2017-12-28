@@ -3,12 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var currentPlayer = 1;
 
   function playChip(cell) {
-    cell.setAttribute("data-player", `${currentPlayer}`);
+    newCell = document.createElement('div')
+    newCell.classList = 'chip'
+    cell.appendChild(newCell);
+    newCell.setAttribute("data-player", `${currentPlayer}`);
     if (currentPlayer === 1) {
-      cell.style.backgroundColor = "red";
+      newCell.style.backgroundColor = "red";
       currentPlayer = 2;
     } else if (currentPlayer === 2) {
-      cell.style.backgroundColor = "yellow";
+      newCell.style.backgroundColor = "yellow";
       currentPlayer = 1;
     }
     cell.setAttribute("data-clicked", true);
