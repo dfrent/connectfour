@@ -1,13 +1,16 @@
-h1{ color: red; }
+h1{ color: red;
+    text-align: center;
+    text-decoration-style: wavy;
+    text-shadow: 4px 2px black;
+
+}
+
+
 
 .container {
     display: grid;
     border: 3px solid black;
+    margin: 3em;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: 80px 80px 80px 80px 80px 80px;
 }
-
-/* .container {
-    grid-template-columns: [line1] 80px [line2] 80px [line3] 80px [line4] 80px [line5] 80px [line6] 80px [line7] 80px;
-    grid-template-rows: [row1] 80px [row2] 80px [row3] 80px [row4] 80px [row5] 80px [row6] 80px;
-} */
