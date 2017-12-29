@@ -1,8 +1,13 @@
+// Controls the playing of a chip
 function playChip(cell) {
+
+  // Creates a chip div, assigns a class, appends it to the particular cell, and assigns a player ID to it
   newCell = document.createElement('div')
   newCell.classList = 'chip'
   cell.appendChild(newCell);
   cell.setAttribute("data-player", `${currentPlayer}`);
+
+  // Assigns the correct colour depending on player, swaps the current player's turn
   if (currentPlayer === 1) {
     newCell.style.backgroundColor = "red";
     winChecker();
@@ -12,12 +17,21 @@ function playChip(cell) {
     winChecker();
     currentPlayer = 1;
   }
+
+  // Sets the housing square cell to "clicked"
   cell.setAttribute("data-clicked", true);
 }
 
+// Controls the creation of the game board
 function gameBoard() {
+
+  // Selects the board container
   var container = document.querySelector('.container');
+
+  // Number of row index numbers (6 total)
   var rowNum = 5;
+
+  // 42 individual cells are created and given class "slot"
   for (var divCount = 42; divCount > 0; divCount--) {
     newDiv = document.createElement('div');
     container.appendChild(newDiv);
@@ -25,12 +39,15 @@ function gameBoard() {
     if (divCount % 7 === 0 && divCount !== 42) {
       rowNum--;
     }
+
+    // Assigns each cell an appropriate row, column, and "false" clicked status
     newDiv.setAttribute("data-row", `${rowNum}`);
     newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
     newDiv.setAttribute("data-clicked", false);
   }
 }
 
+// Function to detect a win with 4 in a row
 function rowWin() {
   for (var r = 0; r < 6; r++) {
     var streak = 1;
@@ -51,6 +68,7 @@ function rowWin() {
   };
 };
 
+// Function to detect a win with 4 in a column
 function columnWin() {
   for (var r = 0; r < 7; r++) {
     var streak = 1;
@@ -71,10 +89,12 @@ function columnWin() {
   };
 };
 
+// Function to detect a win with 4 in a diagonal
 function diagonalWin() {
 
 };
 
+// Function that runs all 3 win checks and sends a message if one returns true
 function winChecker() {
   if (rowWin() || columnWin() || diagonalWin()) {
     alert(`Player ${currentPlayer} Wins!`);
@@ -82,22 +102,31 @@ function winChecker() {
   }
 };
 
+// Event listener for post-load game functions
 document.addEventListener('DOMContentLoaded', function() {
   var container = document.querySelector('.container');
   window.currentPlayer = 1;
 
+  // Listens for and activates click events
   container.addEventListener('click', function(e) {
     var clicked = e.target
     var clickedColumn = clicked.getAttribute('data-column');
     var fullColumn = [].slice.call(document.querySelectorAll(`[data-column="${clickedColumn}"]`));;
     var allClicked = fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
 
+    // Only adds a chip if the spot hasn't been clicked, is a slot classed item, and is at row 5 or below (on the board)
     if (clicked.classList.contains('slot') && clicked.getAttribute('data-clicked') === 'false' && clicked.getAttribute('data-row') < 6) {
+
+      // Ensures that the chip goes to the bottom of the column
       for (var i = 0; i < fullColumn.length; i++) {
         cell = fullColumn[i];
+
+        // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
           break;
+
+        // In case of a non-empty column
         } else if (cell.getAttribute('data-clicked') === "true") {
           fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
