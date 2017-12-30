@@ -1,5 +1,14 @@
 var currentPlayer = 1;
 
+// Creates a new chip, sets the class, player data, and colour
+function createChip(cell) {
+  newCell = document.createElement('div')
+  newCell.classList = 'chip'
+  cell.setAttribute("data-player", `${currentPlayer}`);
+  newCell.style.backgroundColor = chipColour();
+  cell.appendChild(newCell);
+};
+
 // Alternates between players
 function nextTurn() {
   switch (currentPlayer) {
@@ -10,31 +19,25 @@ function nextTurn() {
       currentPlayer = 1;
       break;
   }
-}
+};
 
 // Sets the chip background colour
-function chipColour() {
+function chipColour(cell) {
   switch (currentPlayer) {
     case 1:
-      newCell.style.backgroundColor = "red";
+    return "red";
       break;
     case 2:
-      newCell.style.backgroundColor = "yellow";
+      return "yellow";
       break;
   }
-}
+};
 
 // Controls the playing of a chip
 function playChip(cell) {
 
-  // Creates a chip div, assigns a class, appends it to the particular cell, and assigns a player ID to it
-  newCell = document.createElement('div')
-  newCell.classList = 'chip'
-  cell.appendChild(newCell);
-  cell.setAttribute("data-player", `${currentPlayer}`);
+  createChip(cell);
 
-  chipColour();
-  
   // Sets the housing square cell to "clicked"
   cell.setAttribute("data-clicked", true);
 }
