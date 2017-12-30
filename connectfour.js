@@ -115,7 +115,7 @@ function diagonalWin() {
 
 // Function that runs all 3 win checks and sends a message if one returns true
 function winChecker() {
-  if (lineWin(row, 6) || lineWin(column, 7) || diagonalWin()) {
+  if (rowWin() || columnWin() || diagonalWin()) {
     alert(`Player ${currentPlayer} Wins!`);
     document.location.reload();
   }
