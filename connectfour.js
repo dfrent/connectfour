@@ -1,3 +1,29 @@
+var currentPlayer = 1;
+
+// Alternates between players
+function nextTurn() {
+  switch (currentPlayer) {
+    case 1:
+      currentPlayer = 2;
+      break;
+    case 2:
+      currentPlayer = 1;
+      break;
+  }
+}
+
+// Sets the chip background colour
+function chipColour() {
+  switch (currentPlayer) {
+    case 1:
+      newCell.style.backgroundColor = "red";
+      break;
+    case 2:
+      newCell.style.backgroundColor = "yellow";
+      break;
+  }
+}
+
 // Controls the playing of a chip
 function playChip(cell) {
 
@@ -7,17 +33,8 @@ function playChip(cell) {
   cell.appendChild(newCell);
   cell.setAttribute("data-player", `${currentPlayer}`);
 
-  // Assigns the correct colour depending on player, swaps the current player's turn
-  if (currentPlayer === 1) {
-    newCell.style.backgroundColor = "red";
-    winChecker();
-    currentPlayer = 2;
-  } else if (currentPlayer === 2) {
-    newCell.style.backgroundColor = "yellow";
-    winChecker();
-    currentPlayer = 1;
-  }
-
+  chipColour();
+  
   // Sets the housing square cell to "clicked"
   cell.setAttribute("data-clicked", true);
 }
@@ -105,7 +122,6 @@ function winChecker() {
 // Event listener for post-load game functions
 document.addEventListener('DOMContentLoaded', function() {
   var container = document.querySelector('.container');
-  window.currentPlayer = 1;
 
   // Listens for and activates click events
   container.addEventListener('click', function(e) {
@@ -124,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
+          nextTurn();
           break;
 
         // In case of a non-empty column
@@ -132,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
           newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
           playChip(newCell);
+          nextTurn();
           break;
         }
       }
