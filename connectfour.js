@@ -66,12 +66,13 @@ function gameBoard() {
 
 // Function to detect a win with 4 in a row
 function rowWin() {
-  for (var r = 0; r < 6; r++) {
+  for (var row = 0; row < 6; row++) {
     var streak = 1;
     var previousPlayer;
-    var currentRow = document.querySelectorAll(`[data-row='${r}']`);
-    for (var c = 0; c < 7; c++) {
-      var currentPlayer = currentRow[c].getAttribute(`data-player`)
+    previousPlayer = null;
+    var currentRow = document.querySelectorAll(`[data-row='${row}']`);
+    for (var cell = 0; cell < currentRow.length; cell++) {
+      var currentPlayer = currentRow[cell].getAttribute(`data-player`)
       if (currentPlayer === previousPlayer && currentPlayer !== null) {
         streak++;
       } else {
@@ -79,7 +80,7 @@ function rowWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        return true;
+        alert(`Player ${currentPlayer} Wins! (row)`);
       }
     };
   };
@@ -87,12 +88,13 @@ function rowWin() {
 
 // Function to detect a win with 4 in a column
 function columnWin() {
-  for (var r = 0; r < 7; r++) {
+  for (var column = 0; column < 7; column++) {
     var streak = 1;
     var previousPlayer;
-    var currentColumn = document.querySelectorAll(`[data-column='${r}']`);
-    for (var c = 0; c < 6; c++) {
-      var currentPlayer = currentColumn[c].getAttribute(`data-player`)
+    previousPlayer = null;
+    var currentColumn = document.querySelectorAll(`[data-column='${column}']`);
+    for (var cell = 0; cell < currentColumn.length; cell++) {
+      var currentPlayer = currentColumn[cell].getAttribute(`data-player`)
       if (currentPlayer === previousPlayer && currentPlayer !== null) {
         streak++;
       } else {
@@ -100,7 +102,7 @@ function columnWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        return true;
+        alert(`Player ${currentPlayer} Wins! (column)`);
       }
     };
   };
@@ -113,7 +115,7 @@ function diagonalWin() {
 
 // Function that runs all 3 win checks and sends a message if one returns true
 function winChecker() {
-  if (rowWin() || columnWin() || diagonalWin()) {
+  if (lineWin(row, 6) || lineWin(column, 7) || diagonalWin()) {
     alert(`Player ${currentPlayer} Wins!`);
     document.location.reload();
   }
@@ -140,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
+          winChecker();
           break;
 
         // In case of a non-empty column
@@ -148,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
           newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
           playChip(newCell);
+          winChecker();
           break;
         }
       }
