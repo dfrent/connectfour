@@ -80,7 +80,7 @@ function rowWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        alert(`Player ${currentPlayer} Wins! (row)`);
+        return true;
       }
     };
   };
@@ -102,7 +102,7 @@ function columnWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        alert(`Player ${currentPlayer} Wins! (column)`);
+        return true;
       }
     };
   };
