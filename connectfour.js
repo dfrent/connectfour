@@ -1,30 +1,47 @@
-// Controls the playing of a chip
-function playChip(cell) {
+var currentPlayer = 1;
 
-  // Creates a chip div, assigns a class, appends it to the particular cell, and assigns a player ID to it
+// Sets the chip background colour
+function chipColour(cell) {
+  switch (currentPlayer) {
+    case 1:
+    return "red";
+      break;
+    case 2:
+      return "yellow";
+      break;
+  }
+};
+
+// Creates a new chip, sets the class, player data, and colour, then makes the cell "clicked"
+function createChip(cell) {
   newCell = document.createElement('div')
   newCell.classList = 'chip'
-  cell.appendChild(newCell);
   cell.setAttribute("data-player", `${currentPlayer}`);
-
-  // Assigns the correct colour depending on player, swaps the current player's turn
-  if (currentPlayer === 1) {
-    newCell.style.backgroundColor = "red";
-    winChecker();
-    currentPlayer = 2;
-  } else if (currentPlayer === 2) {
-    newCell.style.backgroundColor = "yellow";
-    winChecker();
-    currentPlayer = 1;
-  }
-
-  // Sets the housing square cell to "clicked"
+  newCell.style.backgroundColor = chipColour();
+  cell.appendChild(newCell);
   cell.setAttribute("data-clicked", true);
+};
+
+// Alternates between players
+function nextTurn() {
+  switch (currentPlayer) {
+    case 1:
+      currentPlayer = 2;
+      break;
+    case 2:
+      currentPlayer = 1;
+      break;
+  }
+};
+
+// Controls the playing of a chip
+function playChip(cell) {
+  createChip(cell);
+  nextTurn();
 }
 
 // Controls the creation of the game board
 function gameBoard() {
-
   // Selects the board container
   var container = document.querySelector('.container');
 
@@ -32,29 +49,30 @@ function gameBoard() {
   var rowNum = 5;
 
   // 42 individual cells are created and given class "slot"
-  for (var divCount = 42; divCount > 0; divCount--) {
-    newDiv = document.createElement('div');
-    container.appendChild(newDiv);
-    newDiv.className = `slot${divCount} slot`;
-    if (divCount % 7 === 0 && divCount !== 42) {
+  for (var slotCount = 42; slotCount > 0; slotCount--) {
+    newSlot = document.createElement('div');
+    container.appendChild(newSlot);
+    newSlot.className = `slot${slotCount} slot`;
+    if (slotCount % 7 === 0 && slotCount !== 42) {
       rowNum--;
     }
 
     // Assigns each cell an appropriate row, column, and "false" clicked status
-    newDiv.setAttribute("data-row", `${rowNum}`);
-    newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
-    newDiv.setAttribute("data-clicked", false);
+    newSlot.setAttribute("data-row", `${rowNum}`);
+    newSlot.setAttribute("data-column", `${(slotCount - 1) % 7}`);
+    newSlot.setAttribute("data-clicked", false);
   }
 }
 
 // Function to detect a win with 4 in a row
 function rowWin() {
-  for (var r = 0; r < 6; r++) {
+  for (var row = 0; row < 6; row++) {
     var streak = 1;
     var previousPlayer;
-    var currentRow = document.querySelectorAll(`[data-row='${r}']`);
-    for (var c = 0; c < 7; c++) {
-      var currentPlayer = currentRow[c].getAttribute(`data-player`)
+    previousPlayer = null;
+    var currentRow = document.querySelectorAll(`[data-row='${row}']`);
+    for (var cell = 0; cell < currentRow.length; cell++) {
+      var currentPlayer = currentRow[cell].getAttribute(`data-player`)
       if (currentPlayer === previousPlayer && currentPlayer !== null) {
         streak++;
       } else {
@@ -62,7 +80,7 @@ function rowWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        return true;
+        alert(`Player ${currentPlayer} Wins! (row)`);
       }
     };
   };
@@ -70,12 +88,13 @@ function rowWin() {
 
 // Function to detect a win with 4 in a column
 function columnWin() {
-  for (var r = 0; r < 7; r++) {
+  for (var column = 0; column < 7; column++) {
     var streak = 1;
     var previousPlayer;
-    var currentColumn = document.querySelectorAll(`[data-column='${r}']`);
-    for (var c = 0; c < 6; c++) {
-      var currentPlayer = currentColumn[c].getAttribute(`data-player`)
+    previousPlayer = null;
+    var currentColumn = document.querySelectorAll(`[data-column='${column}']`);
+    for (var cell = 0; cell < currentColumn.length; cell++) {
+      var currentPlayer = currentColumn[cell].getAttribute(`data-player`)
       if (currentPlayer === previousPlayer && currentPlayer !== null) {
         streak++;
       } else {
@@ -83,7 +102,7 @@ function columnWin() {
       }
       previousPlayer = currentPlayer;
       if ( streak === 4 ) {
-        return true;
+        alert(`Player ${currentPlayer} Wins! (column)`);
       }
     };
   };
@@ -96,7 +115,7 @@ function diagonalWin() {
 
 // Function that runs all 3 win checks and sends a message if one returns true
 function winChecker() {
-  if (rowWin() || columnWin() || diagonalWin()) {
+  if (lineWin(row, 6) || lineWin(column, 7) || diagonalWin()) {
     alert(`Player ${currentPlayer} Wins!`);
     document.location.reload();
   }
@@ -105,7 +124,6 @@ function winChecker() {
 // Event listener for post-load game functions
 document.addEventListener('DOMContentLoaded', function() {
   var container = document.querySelector('.container');
-  window.currentPlayer = 1;
 
   // Listens for and activates click events
   container.addEventListener('click', function(e) {
@@ -124,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
+          winChecker();
           break;
 
         // In case of a non-empty column
@@ -132,6 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
           newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
           playChip(newCell);
+          winChecker();
           break;
         }
       }
