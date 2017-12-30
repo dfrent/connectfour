@@ -1,12 +1,25 @@
 var currentPlayer = 1;
 
-// Creates a new chip, sets the class, player data, and colour
+// Sets the chip background colour
+function chipColour(cell) {
+  switch (currentPlayer) {
+    case 1:
+    return "red";
+      break;
+    case 2:
+      return "yellow";
+      break;
+  }
+};
+
+// Creates a new chip, sets the class, player data, and colour, then makes the cell "clicked"
 function createChip(cell) {
   newCell = document.createElement('div')
   newCell.classList = 'chip'
   cell.setAttribute("data-player", `${currentPlayer}`);
   newCell.style.backgroundColor = chipColour();
   cell.appendChild(newCell);
+  cell.setAttribute("data-clicked", true);
 };
 
 // Alternates between players
@@ -21,30 +34,14 @@ function nextTurn() {
   }
 };
 
-// Sets the chip background colour
-function chipColour(cell) {
-  switch (currentPlayer) {
-    case 1:
-    return "red";
-      break;
-    case 2:
-      return "yellow";
-      break;
-  }
-};
-
 // Controls the playing of a chip
 function playChip(cell) {
-
   createChip(cell);
-
-  // Sets the housing square cell to "clicked"
-  cell.setAttribute("data-clicked", true);
+  nextTurn();
 }
 
 // Controls the creation of the game board
 function gameBoard() {
-
   // Selects the board container
   var container = document.querySelector('.container');
 
@@ -52,18 +49,18 @@ function gameBoard() {
   var rowNum = 5;
 
   // 42 individual cells are created and given class "slot"
-  for (var divCount = 42; divCount > 0; divCount--) {
-    newDiv = document.createElement('div');
-    container.appendChild(newDiv);
-    newDiv.className = `slot${divCount} slot`;
-    if (divCount % 7 === 0 && divCount !== 42) {
+  for (var slotCount = 42; slotCount > 0; slotCount--) {
+    newSlot = document.createElement('div');
+    container.appendChild(newSlot);
+    newSlot.className = `slot${slotCount} slot`;
+    if (slotCount % 7 === 0 && slotCount !== 42) {
       rowNum--;
     }
 
     // Assigns each cell an appropriate row, column, and "false" clicked status
-    newDiv.setAttribute("data-row", `${rowNum}`);
-    newDiv.setAttribute("data-column", `${(divCount - 1) % 7}`);
-    newDiv.setAttribute("data-clicked", false);
+    newSlot.setAttribute("data-row", `${rowNum}`);
+    newSlot.setAttribute("data-column", `${(slotCount - 1) % 7}`);
+    newSlot.setAttribute("data-clicked", false);
   }
 }
 
@@ -143,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
-          nextTurn();
           break;
 
         // In case of a non-empty column
@@ -152,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
           newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
           newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
           playChip(newCell);
-          nextTurn();
           break;
         }
       }
