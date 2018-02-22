@@ -91,13 +91,14 @@ function columnWin() {
   for (var column = 0; column < 7; column++) {
     var streak = 1;
     var previousPlayer;
-    previousPlayer = null;
+    var previousPlayer = null;
     var currentColumn = document.querySelectorAll(`[data-column='${column}']`);
     for (var cell = 0; cell < currentColumn.length; cell++) {
       var currentPlayer = currentColumn[cell].getAttribute(`data-player`)
       if (currentPlayer === previousPlayer && currentPlayer !== null) {
         streak++;
-      } else {
+      }
+      else {
         streak = 1;
       }
       previousPlayer = currentPlayer;
@@ -109,13 +110,35 @@ function columnWin() {
 };
 
 // Function to detect a win with 4 in a diagonal
-function diagonalWin() {
 
+function diagonalWin(x, y) {
+  console.log(x, y);
+  var xLimit = (6, 5);
+  var yLimit = (0, 0);
+
+  while (x <= xLimit && y >= yLimit) {
+      var streak = 1;
+      var currentPlayer = (x, y)
+    for (var i = 0; i < 5; i++) {
+        x - 1 && y - 1;
+        let previousPlayer = null;
+        if (currentPlayer === previousPlayer && currentPlayer !== null) {
+         streak++;
+        }
+        else {
+         streak = 1;
+        }
+        if ( streak === 4 ) {
+         return true;
+        }
+    }
+  }
 };
 
+
 // Function that runs all 3 win checks and sends a message if one returns true
-function winChecker() {
-  if (rowWin() || columnWin() || diagonalWin()) {
+function winChecker(x, y) {
+  if (rowWin() || columnWin() || diagonalWin(x, y)) {
     alert(`Player ${currentPlayer} Wins!`);
     document.location.reload();
   }
@@ -138,20 +161,19 @@ document.addEventListener('DOMContentLoaded', function() {
       // Ensures that the chip goes to the bottom of the column
       for (var i = 0; i < fullColumn.length; i++) {
         cell = fullColumn[i];
-
         // In case of an empty column
         if (cell.getAttribute('data-clicked') === "false" && cell.getAttribute('data-row') === "0") {
           playChip(cell);
-          winChecker();
+          winChecker(clickedColumn, 0);
           break;
 
         // In case of a non-empty column
         } else if (cell.getAttribute('data-clicked') === "true") {
           fullColumn.filter(cell => cell.getAttribute("data-clicked") === 'true');
-          newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
-          newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
+          let newCellRow = parseInt(allClicked[0].getAttribute('data-row')) + 1;
+          let newCell = fullColumn.filter(cell => cell.getAttribute('data-row') === `${newCellRow}`)[0];
           playChip(newCell);
-          winChecker();
+          winChecker(clickedColumn, newCellRow);
           break;
         }
       }
