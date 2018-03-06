@@ -116,24 +116,27 @@ function diagonalWin(x, y) {
   var xLimit = (6, 5);
   var yLimit = (0, 0);
 
-  while (x <= xLimit && y >= yLimit) {
-      var streak = 1;
-      var currentPlayer = (x, y)
-    for (var i = 0; i < 5; i++) {
-        x - 1 && y - 1;
-        let previousPlayer = null;
-        if (currentPlayer === previousPlayer && currentPlayer !== null) {
-         streak++;
-        }
-        else {
-         streak = 1;
-        }
-        if ( streak === 4 ) {
-         return true;
-        }
-    }
-  }
+  do {
+    var streak = 1;
+    var previousPlayer;
+    var previousPlayer = null;
+    // var currentPlayer = (x, y);
+      if (currentPlayer === previousPlayer && currentPlayer !== null ) {
+        x - 1 && y - 1 || x + 1 && y + 1
+        streak++
+      } else if (currentPlayer === previousPlayer && currentPlayer !== null) {
+        x + 1 && y - 1 || x - 1 && y + 1
+        streak++
+      }else {
+        streak = 1;
+      }
+        // previousPlayer = currentPlayer;
+        // if ( streak === 4 ) {
+        //   return true;
+  } while (x <= xLimit && y >= yLimit);
+
 };
+
 
 
 // Function that runs all 3 win checks and sends a message if one returns true
